@@ -1,25 +1,35 @@
 import dotenv from 'dotenv'
-import { attachPaginate } from 'knex-paginate'
-import { dbSetup } from '../knexconfig'
+import Knex from 'knex'
 
 dotenv.config()
 
-const knexConfig = {
-  client: 'mysql',
-  connection: dbSetup.test,
-  userParams: {
-    userParam1: '451'
-  },
-};
+// export async function create () {
+  const db = Knex({
+    client: 'pg',
+    connection:  {
+      user: process.env.USERNAME,
+      password: process.env.PASSWORD,
+      host: process.env.HOSTNAME,
+      port: 3306,
+      database: process.env.DBNAME
+    },
+    // `postgres://localhost:5432/lendsqr`,
+    
+    pool: {
+      min: 2,
+      max: 10,
+    },
+    acquireConnectionTimeout: 2000
+  })
 
-attachPaginate()
+  // Verify the connection before proceeding
+  // try {
+  //   await knex.raw('SELECT now()')
 
-export default knexConfig;
+  //   return knex
+  // } catch (error) {
+  //   throw new Error('Unable to connect to Postgres via Knex. Ensure a valid connection.')
+  // }
+// }
 
-// {
-//   host : '127.0.0.1',
-//   port : 3306,
-//   user : 'your_database_user',
-//   password : 'your_database_password',
-//   database : 'myapp_test'
-// },
+export default db

@@ -7,7 +7,7 @@ dotenv.config()
 export const dbSetup = {
 
   development: {
-    client: 'mysql',
+    client: 'pg',
     connection: {
       database: process.env.DB_NAME,
       user:     process.env.DB_USER,
@@ -19,7 +19,8 @@ export const dbSetup = {
       max: 10
     },
     migrations: {
-      tableName: 'knex_migrations'
+      tableName: 'knex_migrations',
+      extension: 'ts'
     }
   },
 
@@ -36,7 +37,8 @@ export const dbSetup = {
       max: 10
     },
     migrations: {
-      tableName: 'knex_migrations'
+      tableName: 'knex_migrations',
+      extension: 'ts'
     }
   },
 };
