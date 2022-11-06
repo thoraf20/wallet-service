@@ -18,7 +18,6 @@ const auth = async (req: any, res: Response, next: NextFunction) => {
     } catch (error) {
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error);
     }
-
 };
 
 export default auth

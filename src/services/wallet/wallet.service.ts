@@ -1,4 +1,4 @@
-import db from '../../config/db'
+import db from '../../database/db'
 import bcrypt from 'bcryptjs'
 import randomstring from "randomstring";
 import { FundTransfer, FundWallet, VerifyFunding, Wallet, WalletPin, WithdrawFund } from '../interface/wallet.interface';
@@ -70,27 +70,27 @@ export class WalletService {
       });
     }
 
-    // const transaction = await db("transactions")
-    // .where("user_id", user.id)
-    // .where("transaction_code", payment.id)
-    // .first();
+    const transaction = await db("transactions")
+    .where("user_id", user.id)
+    .where("transaction_code", payment.id)
+    .first();
 
-    // if (!transaction) {
-    //   await db("wallets")
-    //     .where("user_id", user.id)
-    //     .increment("balance", payment.amount);
+    if (!transaction) {
+      await db("wallets")
+        .where("user_id", user.id)
+        .increment("balance", payment.amount);
   
-    //   await db("transactions").insert({
-    //     user_id: user.id,
-    //     transaction_code: payment.id,
-    //     transaction_reference: payment.tx_ref,
-    //     amount: payment.amount,
-    //     description: "Wallet Funding",
-    //     status: payment.status,
-    //     payment_method: payment.payment_type,
-    //     is_inflow: true,
-    //   });
-    // }
+      await db("transactions").insert({
+        user_id: user.id,
+        transaction_code: payment.id,
+        transaction_reference: payment.tx_ref,
+        amount: payment.amount,
+        description: "Wallet Funding",
+        status: payment.status,
+        payment_method: payment.payment_type,
+        is_inflow: true,
+      });
+    }
 
     return payment;
   }
@@ -220,16 +220,16 @@ export class WalletService {
     .where("user_id", user.id)
     .decrement("balance", amountToDeduct);
 
-    // await db("transactions").insert({
-    //   user_id: user.id,
-    //   transaction_code: payment.id,
-    //   transaction_reference: payment.reference,
-    //   amount: amountToDeduct,
-    //   description: "Fund Withdrawal",
-    //   status: "successful",
-    //   payment_method: "bank transfer",
-    //   is_inflow: false,
-    // });
+    await db("transactions").insert({
+      user_id: user.id,
+      transaction_code: payment?.id,
+      transaction_reference: payment?.reference,
+      amount: amountToDeduct,
+      description: "Fund Withdrawal",
+      status: "successful",
+      payment_method: "bank transfer",
+      is_inflow: false,
+    });
   }
 
   static async getWalletBalance(walletData: Wallet) {
