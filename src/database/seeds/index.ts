@@ -1,11 +1,13 @@
 import Knex from 'knex'
+import db from '../../database/db'
 
-exports.seed = function(knex, Promise) {
+
+exports.seed = function(db , Promise) {
   // Deletes ALL existing entries
-  return knex('users').del()
+  return db('users').del()
     .then(function () {
       // Inserts seed entries
-      return knex('users').insert([
+      return db('users').insert([
         {
           id: 1,
           email: '',

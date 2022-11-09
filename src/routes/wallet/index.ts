@@ -67,7 +67,7 @@ export const verifyWalletFundingHandler: RequestHandler = async (req, res) => {
     status: Joi.string().required(),
   })
 
-  const { error, value } = requestSchema.validate(req.body)
+  const { error, value } = requestSchema.validate(req.query)
 
   if (error) {
     return res.status(httpStatus.BAD_REQUEST).json({ error: error.message })

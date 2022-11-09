@@ -21,6 +21,7 @@ export const registerHandler: RequestHandler = async(req, res) => {
     return res.status(httpStatus.BAD_REQUEST).json({ error: error.message })
   }
   try {
+
     const userExist = await UserService.findUserByEmail(value.email);
 
     if (userExist) {

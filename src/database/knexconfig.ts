@@ -9,10 +9,11 @@ export const dbSetup = {
   development: {
     client: 'pg',
     connection: {
-      user: config.username,
-      password: config.password,
-      host: config.hostname,
-      port: Number(config.port),
+      user: 'postgres',
+      password: 'postgres',
+      // config.password as string,
+      host: 'localhost',
+      port: 5432,
       database: 'lendsqr_dev',
       ssl: false,
     },
@@ -22,11 +23,11 @@ export const dbSetup = {
     },
     migrations: {
       tableName: "knex_migrations",
-      // directory: "./migrations",
+      directory: './src/database/migrations/1_users.ts',
     },
-    // seeds: {
-    //   directory: './seeds' 
-    // }
+    seeds: {
+      directory: './src/database/seeds/index' 
+    }
   },
 
   // test: {

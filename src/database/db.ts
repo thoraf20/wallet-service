@@ -1,6 +1,6 @@
 import dotenv from 'dotenv'
 import Knex from 'knex'
-import { dbSetup } from '../knexconfig'
+import { dbSetup } from './knexconfig'
 import { attachPaginate } from 'knex-paginate'
 
 dotenv.config()
