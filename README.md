@@ -18,7 +18,7 @@ This system allow registered users to fund their wallet, transfer funds and with
 
 -[x] Clone the project from github
 
-git clone 
+git clone https://github.com/thoraf20/wallet-service.git
 
 # Install npm dependencies
 npm install
@@ -43,7 +43,7 @@ npm run migrate:reset
 # How to run the app
 
 # Running API server locally
-npm start
+npm start 
 
 You will know server is running by checking the output of the command npm start
 
@@ -51,6 +51,10 @@ You will know server is running by checking the output of the command npm start
 npm test
 
 Note: Make sure you set up the test variable in the .env file
+
+# E-R Design
+
+link: https://dbdesigner.page.link/z7Vo2KvQauuAeDt87
 
 # Author
 Toheeb Rauf
