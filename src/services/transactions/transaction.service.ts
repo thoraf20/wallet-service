@@ -1,4 +1,4 @@
-import db from '../../database/db'
+import db from '../../config/db'
 import { Transaction } from '../interface/transaction.interface';
 
 

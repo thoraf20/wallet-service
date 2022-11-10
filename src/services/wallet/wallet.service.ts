@@ -1,4 +1,4 @@
-import db from '../../database/db'
+import db from '../../config/db'
 import bcrypt from 'bcryptjs'
 import randomstring from "randomstring";
 import { FundTransfer, FundWallet, VerifyFunding, Wallet, WalletPin, WithdrawFund } from '../interface/wallet.interface';

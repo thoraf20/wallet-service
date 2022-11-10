@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs'
 import { User } from '../interface/user.interface'
-import db from '../../database/db'
+import db from '../../config/db'
 
 export default class UserService {
 
