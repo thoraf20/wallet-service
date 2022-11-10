@@ -1,13 +1,13 @@
 import express from "express";
 import { getTransactionsHandler } from "./routes/transaction";
-import { loiginHandler, registerHandler } from "./routes/user";
+import { loginHandler, registerHandler } from "./routes/user";
 import { fundWalletHandler, getWalletBalanceHandler, setWalletPinHandler, transferFundHandler, verifyWalletFundingHandler, withdrawFundHandler } from "./routes/wallet";
 
 const router = express.Router();
 
 // auth
 router.post("/register", registerHandler);
-router.post("/login", loiginHandler);
+router.post("/login", loginHandler);
 
 // wallet
 router.post("/wallet/set-pin", setWalletPinHandler);

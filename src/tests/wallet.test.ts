@@ -3,7 +3,7 @@ import app from "../index";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 
-let token: string, secondToken: string, mock;
+let token: string, secondToken: string, mock: MockAdapter;
 beforeAll(async () => {
   await request(app).post("/register").send({
     first_name: "Usman",
@@ -141,8 +141,8 @@ describe("Wallet", () => {
           customer: {
             id: 370672,
             phone_number: null,
-            name: "Usman Salami",
-            email: "usman@gmail.com",
+            name: "Toheeb Rauf",
+            email: "thoraf20@gmail.com",
             created_at: "2020-04-30T20:09:56.000Z",
           },
         },

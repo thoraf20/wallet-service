@@ -14,6 +14,12 @@ const auth = async (req: any, res: Response, next: NextFunction) => {
         }
         const decodeToken = jwt.verify(token.split(' ')[1], jwtConfig.appKey)
         req.user = decodeToken
+        res.locals.user = { 
+          id: req.user.id, 
+          email: req.user.email, 
+          first_name: req.user.first_name,
+          last_name: req.user.last_name,
+        },
         next();
     } catch (error) {
         return res.status(httpStatus.INTERNAL_SERVER_ERROR).send(error);

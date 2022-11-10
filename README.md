@@ -18,7 +18,7 @@ This system allow registered users to fund their wallet, transfer funds and with
 
 -[x] Clone the project from github
 
-git clone https://github.com/devwalex/e-wallet-system.git
+git clone 
 
 # Install npm dependencies
 npm install

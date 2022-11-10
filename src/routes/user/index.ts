@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 import Joi from 'joi'
 import UserService from "../../services/users/users.service";
 import jwtConfig from '../../config/jwt';
+import { WalletService } from '../../services/wallet/wallet.service';
 
 
 export const registerHandler: RequestHandler = async(req, res) => {
@@ -30,7 +31,9 @@ export const registerHandler: RequestHandler = async(req, res) => {
       })
     }
 
-    await UserService.createUser(value);
+    const user = await UserService.createUser(value);
+   
+    await WalletService.createWallet(user[0].id)
 
     return res.status(httpStatus.CREATED).json({
       success: true,
@@ -41,7 +44,7 @@ export const registerHandler: RequestHandler = async(req, res) => {
     return res.status(httpStatus.INTERNAL_SERVER_ERROR).json(error);
   }
 }
-export const loiginHandler: RequestHandler = async(req, res) => {
+export const loginHandler: RequestHandler = async(req, res) => {
   const requestSchema = Joi.object({
     email: Joi.string().required(),
     password: Joi.string().required(),

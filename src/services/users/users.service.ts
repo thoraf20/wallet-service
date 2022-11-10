@@ -8,7 +8,22 @@ export default class UserService {
     const {first_name, last_name, email, password } = userData
     const hashPassword = bcrypt.hashSync(password, 10)
 
-    const user = await db('users').insert( {first_name, last_name, email, password: hashPassword })
+    const user = await db.insert({first_name, last_name, email, password: hashPassword })
+    .returning('id')
+      .into('users')
+      .then(function (id) {
+        return id
+      });
+
+    // var id = knex.insert(
+    //   {
+    //     first_name:firstName,
+    //     last_name:lastName,
+    //     email:email,
+    //     phone_number:phoneNumber
+    //   })
+    //   .returning('id')
+    //   .into('person')
     return user
   }
 

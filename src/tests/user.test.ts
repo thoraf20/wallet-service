@@ -1,7 +1,7 @@
 import request from "supertest";
 import app from "../index";
 
-let token;
+let token: string;
 beforeAll(async () => {
   await request(app).post("/register").send({
     first_name: "Carter",

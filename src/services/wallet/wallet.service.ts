@@ -9,8 +9,8 @@ import {
 } from "../../helpers/payment.transactions";
 
 export class WalletService {
-  static async createWallet(userId: string) {
-    const user = await db.select("*").from("users").where("id", userId).first();
+  static async createWallet(userId: number) {
+    const user = await db.select().from("users").where("id", userId).first();
 
     const generatedWalletCode = randomstring.generate({
       length: 7,
@@ -101,7 +101,7 @@ export class WalletService {
     const amount = walletData.amount;
     const walletPin = walletData.wallet_pin;
 
-    let recipient;
+    let recipient: { id: string | Readonly<any> | null; };
    if (walletCodeOrEmail.includes("@")) {
     recipient = await db("users").where("email", walletCodeOrEmail).first();
    } else {
@@ -155,35 +155,42 @@ export class WalletService {
       charset: "numeric",
     });
 
-    // Deduct from sender wallet
-    await db("wallets").where("user_id", sender.id).decrement("balance", amount);
+    try {
+      await db.transaction(async trx => {
+    
+        await trx("wallets").where("user_id", sender.id).decrement("balance", amount);
 
-    await db("transactions").insert({
-      user_id: sender.id,
-      transaction_code: generatedTransactionCode,
-      transaction_reference: `PID-${generatedTransactionReference}`,
-      amount: amount,
-      description: "Fund Transfer",
-      status: "successful",
-      payment_method: "wallet",
-      is_inflow: false,
-    });
+        await trx("transactions").insert({
+          user_id: sender.id,
+          transaction_code: generatedTransactionCode,
+          transaction_reference: `PID-${generatedTransactionReference}`,
+          amount: amount,
+          description: "Fund Transfer",
+          status: "successful",
+          payment_method: "wallet",
+          is_inflow: false,
+        });
 
-    // Add to recipient wallet
-    await db("wallets")
-      .where("user_id", recipient.id)
-      .increment("balance", amount);
+        // Add to recipient wallet
+        await trx("wallets")
+          .where("user_id", recipient.id)
+          .increment("balance", amount);
 
-    await db("transactions").insert({
-      user_id: recipient.id,
-      transaction_code: generatedTransactionCode,
-      transaction_reference: `PID-${generatedTransactionReference}`,
-      amount: amount,
-      description: "Fund Transfer",
-      status: "successful",
-      payment_method: "wallet",
-      is_inflow: true,
-    });
+        await trx("transactions").insert({
+          user_id: recipient.id,
+          transaction_code: generatedTransactionCode,
+          transaction_reference: `PID-${generatedTransactionReference}`,
+          amount: amount,
+          description: "Fund Transfer",
+          status: "successful",
+          payment_method: "wallet",
+          is_inflow: true,
+        });
+      })
+    } catch (error) {
+      console.error(error);
+      return error
+    }
   }
 
   static async withdrawFund (walletData: WithdrawFund) {
