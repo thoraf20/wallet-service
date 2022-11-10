@@ -9,9 +9,9 @@ const CLEARDB_DATABASE_URL = new Url(process.env.CLEARDB_DATABASE_URL as string)
   development: {
     client: 'pg',
     connection: {
-      database: 'lendsqr_dev',
-      user: 'postgres',
-      password: 'postgres',
+      database: `${process.env.DBNAME}`,
+      user: `${process.env.USERNAME}`,
+      password: `${process.env.PASSWORD}`,
     },
     pool: {
       min: 2,
